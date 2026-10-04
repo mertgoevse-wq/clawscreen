@@ -83,10 +83,27 @@ def load_tasks() -> dict[str, dict]:
 
 
 def done_ids_from_state() -> set[str]:
-    """Task ids the build state claims as done, read from the task sections."""
+    """Task ids the build state claims as done.
+
+    Only a level-3 heading (`### CS-0xx`) counts. A level-4 heading
+    (`#### CS-0xx`) is a note about a task that is still open, so a partial
+    result can never be read as a finished one.
+    """
     if not STATE.exists():
         return set()
     return set(re.findall(r"^### (CS-\d+)", STATE.read_text(encoding="utf-8"), re.M))
+
+
+def blocker_ids_from_state() -> set[str]:
+    """Task ids the build state claims as blocked (E24).
+
+    A blocker is written as `#### CS-0xx — blocker: <what went wrong>`.
+    """
+    if not STATE.exists():
+        return set()
+    return set(
+        re.findall(r"^#### (CS-\d+) — blocker", STATE.read_text(encoding="utf-8"), re.M)
+    )
 
 
 def cmd_check(tasks: dict[str, dict]) -> int:
@@ -105,14 +122,33 @@ def cmd_check(tasks: dict[str, dict]) -> int:
             findings.append(f"{tid}: test is empty — a task is done only when its test passed")
 
     claimed = done_ids_from_state()
-    for tid in sorted(claimed):
+    blockers = blocker_ids_from_state()
+    for tid in sorted(claimed | blockers):
         if tid not in tasks:
             findings.append(f"{tid}: named in BUILD-STATE.md but no task file exists")
 
     for tid, f in tasks.items():
-        if f.get("status") == "done" and tid not in claimed:
+        status = f.get("status")
+        if status == "done" and tid not in claimed:
             findings.append(
                 f"{tid}: header says done but BUILD-STATE.md has no '### {tid}' entry"
+            )
+        # The other direction matters too: a level-3 entry that claims a task is
+        # finished while the header still says pending means somebody wrote the
+        # entry before the test passed.
+        if status != "done" and tid in claimed:
+            findings.append(
+                f"{tid}: BUILD-STATE.md claims done ('### {tid}') but the header "
+                f"says '{status}' — the header wins until the test passes again"
+            )
+        if status == "blocked" and tid not in blockers:
+            findings.append(
+                f"{tid}: header says blocked but BUILD-STATE.md has no "
+                f"'#### {tid} — blocker' entry"
+            )
+        if status != "blocked" and tid in blockers:
+            findings.append(
+                f"{tid}: BUILD-STATE.md lists a blocker but the header says '{status}'"
             )
 
     if findings:
@@ -129,9 +165,21 @@ def cmd_check(tasks: dict[str, dict]) -> int:
 def cmd_fix(tasks: dict[str, dict]) -> int:
     """Align `status: done` with the build state. Never invents a done task."""
     claimed = done_ids_from_state()
+    blockers = blocker_ids_from_state()
     changed = []
     for tid, f in tasks.items():
-        want = "done" if tid in claimed else f.get("status", "pending")
+        current = f.get("status", "pending")
+        if tid in claimed:
+            want = "done"
+        elif tid in blockers:
+            want = "blocked"
+        elif current == "done":
+            # The header claims more than the build state can show. Repair
+            # towards the verifiable side: a task whose entry is missing was
+            # never proven, so it goes back to open.
+            want = "pending"
+        else:
+            want = current
         if want == f.get("status"):
             continue
         text = f["_text"]

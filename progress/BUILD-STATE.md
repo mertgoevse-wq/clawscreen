@@ -161,7 +161,7 @@ counted commas across *all* table columns, so a row with one real skill plus a
 comma in its explanation column counted as two. It now parses the table by
 header name and counts only the `Skills` column.
 
-### CS-006 — reference projects (2026-10-04) — document done, task still open
+#### CS-006 — reference projects (2026-10-04): document written, task still open
 
 **What:** `tools/build-reference-repos.py` turns spec §22 into
 `docs/reference-repos.md`, merging metadata read live from the GitHub API. A
@@ -213,3 +213,21 @@ that can be proved without the device — the MCP server, the tool layer against
 scripted fake adb, safety, session, memory, the companion app build in CI, the
 documentation, the linters — can be built and tested, and that is the order the
 next run should use.
+
+## Second environment blocker: the local model router stopped answering
+
+Measured 2026-10-04, 21:52. Same URL, two different states within minutes:
+
+```
+21:39  curl http://localhost:20128/v1/models  -> 401 {"error":{"type":"invalid_api_key"}}
+21:52  curl http://localhost:20128/v1/models  -> 000 (connection refused in 3 ms), 3 tries
+```
+
+`401` means the router is alive and wants a bearer key. `000` means it is not
+listening at all. It stopped during this build. `OMNI_API_KEY` is also not set
+in this session's environment.
+
+**Consequence:** CS-092's test ("a real call proves one working model") cannot
+pass right now. Its unit-test half — the fallback chain, the `max_tokens >= 2048`
+rule, a 402 moving down the chain — can be built and tested against a fake router.
+The real call is recorded as an open blocker, not worked around.

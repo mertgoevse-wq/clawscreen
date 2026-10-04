@@ -1,0 +1,46 @@
+name: repo-health
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  health:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Task headers are consistent with BUILD-STATE
+        run: python3 tools/sync_frontmatter.py --check
+
+      - name: Every task has a test and at least 2 skills
+        run: python3 tools/sync_frontmatter.py --check-matrix
+
+      - name: The spec is present and has the expected shape
+        run: python3 tools/sync_frontmatter.py --check-spec
+
+      - name: Anti-slop linter proves it catches slop
+        run: python3 tools/anti-slop.py --self-test
+
+      - name: Anti-slop lint on README and docs
+        run: python3 tools/anti-slop.py
+
+      # The MCP server arrives with CS-012. Until then these steps have nothing
+      # to check, and they must not pretend otherwise.
+      - name: TypeScript MCP server type-checks
+        if: hashFiles('mcp/package.json') != ''
+        working-directory: mcp
+        run: |
+          npm ci
+          npm run build
+
+      - name: MCP unit tests
+        if: hashFiles('mcp/package.json') != ''
+        working-directory: mcp
+        run: npm test

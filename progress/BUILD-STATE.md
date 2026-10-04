@@ -80,3 +80,48 @@ into `CLAUDE.md`.
 ## Blockers
 
 *(none yet)*
+
+### CS-003 — CI workflows (2026-10-04)
+
+**What:** `.github/workflows/repo-health.yml` (task consistency, skill matrix,
+spec shape, anti-slop self-test + lint, then MCP build/test once `mcp/` exists)
+and `.github/workflows/build-apk.yml` (companion APK as an artifact).
+
+**Test:** both files parse as YAML and expose the expected steps.
+
+```
+OK   build-apk.yml: jobs=['apk'] steps=5
+OK   repo-health.yml: jobs=['health'] steps=9
+```
+
+**Result:** passed. The MCP steps carry `if: hashFiles('mcp/package.json') != ''`
+because the MCP server only arrives with CS-012 — they skip honestly instead of
+failing or pretending to run.
+
+### CS-004 — the two tools (2026-10-04)
+
+**What:** `tools/sync_frontmatter.py` (five modes: `--check`, `--fix`,
+`--check-matrix`, `--check-spec`, `--list`) and `tools/anti-slop.py` (six rules
+plus a broken-link check, with `--self-test`).
+
+**Test:**
+
+```
+python3 tools/anti-slop.py --self-test   -> OK: self-test passed — 4 rules and the link check each catch their case
+python3 tools/anti-slop.py               -> OK: 6 rules clean over 2 file(s)
+python3 tools/sync_frontmatter.py --check      -> OK: 47 task headers consistent (2 done, 45 open)
+python3 tools/sync_frontmatter.py --check-spec -> OK: spec present (93349 bytes, all 7 sections found)
+python3 tools/sync_frontmatter.py --check-matrix -> FAIL: tasks/skill-matrix.md is missing (E15)
+```
+
+**Result:** passed. The last line is the correct, honest state: the matrix is
+CS-005's job, so the checker reports it as missing rather than passing silently.
+
+**Bug found and fixed while testing:** `main()` dispatched on `vars(args)` keys,
+which are `check` / `check_spec`, not `--check` / `--check-spec`, so every mode
+raised `KeyError`. Fixed by keying the dispatch table on the bare names.
+
+**Side effect worth keeping:** the lint caught a real broken link in README.md on
+its first real run (`docs/fortschritt.md` did not exist). That file now exists,
+which is why the second run is clean. A linter that has never found anything is
+not a proven linter.

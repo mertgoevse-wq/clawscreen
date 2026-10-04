@@ -231,3 +231,42 @@ in this session's environment.
 pass right now. Its unit-test half — the fallback chain, the `max_tokens >= 2048`
 rule, a 402 moving down the chain — can be built and tested against a fake router.
 The real call is recorded as an open blocker, not worked around.
+
+## Decision: the co-author trailer was wrong and has been removed
+
+Spec §14.3 and the old `CLAUDE.md` prescribed the commit footer
+`Co-Authored-By: Claude <noreply@anthropic.com>`. The work in CS-005, CS-006 and
+the resume-skill commit was **not** done by Claude — it was done by Buffy on
+Space Bunny Alpha, running inside Freebuff. Following the rule literally put a
+false attribution into permanent git history.
+
+The user caught it and chose: rewrite the history, and from now on a plain
+`Generated with …` line with **no** `Co-Authored-By` trailer at all.
+
+**What was done:**
+
+| Commit (before) | Commit (after) | Change |
+|---|---|---|
+| `9ab9fed` | `abc91a3` | trailer removed, `Generated with Buffy (Space Bunny Alpha) running in Freebuff.` added |
+| `724dd21` | `5a4e5e2` | same |
+| `530d190` | `a9a6512` | same |
+
+`dbc5e8d`, `42912c8` and `ba94f36` were not touched — they come from an earlier
+Claude Code session, so the original attribution is plausible for them.
+
+**Safety:** a backup ref `backup-before-trailer-fix` (→ `530d190`) was created
+first. `git diff backup-before-trailer-fix HEAD` is **empty**, so only the
+commit messages changed, no file content. The rewrite touched only
+`ba94f36..HEAD`. Push used `--force-with-lease=main:530d190`, never a blind
+`--force`. Remote verified afterwards: `git ls-remote origin main` →
+`a9a65128b2a2065ee18d393c3fd2258a07cb4d3c`.
+
+**Failure during the attempt, kept here because it is instructive:** the first
+`git filter-branch --msg-filter` passed the script a *path* argument and got the
+message on **stdin**, so `grep` read no file and all three messages were emptied.
+Caught by reading the rewritten log before pushing. `git reset --hard` back to
+the backup ref restored it. The corrected filter reads stdin.
+
+**Spec conflict, resolved per the spec's own rule** (Section 3 and Section 14 win
+over the rest): §14.3's trailer line is superseded by the `CLAUDE.md` rule above.
+The spec file itself is unchanged, because it only changes with a version bump.

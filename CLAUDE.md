@@ -58,8 +58,16 @@ environment at runtime. Never ask the user to paste a secret into a chat or file
 - Working tree must be clean before a task starts. Unpushed local commits may be
   squashed or dropped; the user allows this explicitly.
 - **Forbidden:** local piles of uncommitted work; force-push over pushed history.
-- Commit message: `CS-0xx: <what was done and how it was tested>` plus
-  `Co-Authored-By: Claude <noreply@anthropic.com>`.
+  (Exception agreed by the user on 2026-10-04: rewriting the trailer of commits
+  that carried a wrong co-author line. Done with `--force-with-lease`, once,
+  after a backup ref.)
+- Commit message: `CS-0xx: <what was done and how it was tested>`, then a
+  single line `Generated with <the agent that actually did the work>.`
+- **No `Co-Authored-By` trailer.** It attributed the work to Claude while the
+  work was done by a different agent. State what actually ran; do not copy a
+  trailer that names someone who did not do it. Spec §14.3 still prescribes the
+  Claude trailer — that line is superseded by this one, and the deviation is
+  recorded in `progress/BUILD-STATE.md`.
 - Push partial success too (tested state + blocker note) so a crash eats nothing.
 
 ## No AI slop (E20, §14.5)

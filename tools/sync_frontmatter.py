@@ -144,19 +144,55 @@ def cmd_fix(tasks: dict[str, dict]) -> int:
     return 0
 
 
+def _split_row(line: str) -> list[str]:
+    """Split a markdown table row into its cells, ignoring the outer pipes."""
+    return [cell.strip() for cell in line.strip().strip("|").split("|")]
+
+
+def _matrix_table(matrix: str) -> tuple[list[str], dict[str, list[str]]]:
+    """Return the header cells and the rows of the matrix table, by column name.
+
+    The column named `Skills` is the one that counts. Looking at every column
+    would count commas in the explanation column as skills, which is how an
+    earlier version of this check passed a row with a single skill.
+    """
+    lines = [ln for ln in matrix.splitlines() if ln.strip().startswith("|")]
+    if not lines:
+        return [], {}
+    header = [h.lower() for h in _split_row(lines[0])]
+    rows: dict[str, list[str]] = {}
+    for line in lines[2:]:  # skip header and the ---|--- separator
+        cells = _split_row(line)
+        if not cells:
+            continue
+        task_id = cells[0].strip("`")
+        if not re.fullmatch(r"CS-\d+", task_id):
+            continue
+        rows[task_id] = cells
+    return header, rows
+
+
 def cmd_check_matrix(tasks: dict[str, dict]) -> int:
     findings: list[str] = []
     if not MATRIX.exists():
         print("FAIL: tasks/skill-matrix.md is missing (E15)")
         return 1
     matrix = MATRIX.read_text(encoding="utf-8")
+    header, rows = _matrix_table(matrix)
+    if "skills" not in header:
+        print("FAIL: tasks/skill-matrix.md has no 'Skills' column")
+        return 1
+    skill_col = header.index("skills")
+
     for tid in sorted(tasks):
-        # A matrix row looks like: | CS-010 | skill-a, skill-b |
-        m = re.search(rf"^\|\s*{re.escape(tid)}\s*\|(.+)\|\s*$", matrix, re.M)
-        if not m:
+        cells = rows.get(tid)
+        if cells is None:
             findings.append(f"{tid}: no row in skill-matrix.md")
             continue
-        skills = [s.strip() for s in m.group(1).split(",") if s.strip()]
+        if skill_col >= len(cells):
+            findings.append(f"{tid}: row has no Skills column")
+            continue
+        skills = [s.strip() for s in re.split(r",\s*|\s{2,}", cells[skill_col]) if s.strip()]
         if len(skills) < 2:
             findings.append(f"{tid}: only {len(skills)} skill(s) — E15 requires at least 2")
     if findings:

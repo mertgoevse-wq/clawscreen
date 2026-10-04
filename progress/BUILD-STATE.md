@@ -125,3 +125,38 @@ raised `KeyError`. Fixed by keying the dispatch table on the bare names.
 its first real run (`docs/fortschritt.md` did not exist). That file now exists,
 which is why the second run is clean. A linter that has never found anything is
 not a proven linter.
+
+### CS-005 — skill hunt (2026-10-04)
+
+**What:** baseline skills installed from `anthropics/skills` and
+`gradle/gradle-skills` (spec §22 category E) before any hunting, then a search
+over the §14.2 terms. Six skills installed and documented in
+`.agents/skills/README.md`, `tasks/skill-matrix.md` written with at least two
+skills per task for all 47 tasks, `tasks/DEPENDENCIES.md` added (§11 lists it).
+
+**Test:**
+
+```
+python3 tools/sync_frontmatter.py --check-matrix
+OK: every one of 47 tasks has a test and at least 2 skills
+```
+
+**Negative test of the checker** (a check that never fails is not a check):
+removing one skill from the CS-011 row gives `CS-011: only 1 skill(s)` and exit 1.
+
+**Installed:** `mcp-builder`, `skill-creator` (anthropics/skills),
+`gradle-best-practices` (gradle/gradle-skills), `android-design-guidelines`,
+`android-native-dev`, `tdd`.
+
+**Result:** passed, with one deviation recorded below.
+
+**Deviation:** the spec asks for a *global* install. This build's agent runner
+rejects it (`PromptScript does not support global skill installation`), so the
+skills live in `.agents/skills/` and are loaded by name exactly as before. The
+rejected candidates (web skills, document skills, Slack) are listed with the
+reason in `.agents/skills/README.md` so nobody re-hunts them (E20).
+
+**Bug found and fixed while testing:** `sync_frontmatter.py --check-matrix`
+counted commas across *all* table columns, so a row with one real skill plus a
+comma in its explanation column counted as two. It now parses the table by
+header name and counts only the `Skills` column.

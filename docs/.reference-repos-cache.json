@@ -1,0 +1,368 @@
+{
+ "DeviceFarmer/adbkit": {
+  "archived": false,
+  "licence": "NOASSERTION",
+  "pushed": "2026-10-02",
+  "stars": 306
+ },
+ "DeviceFarmer/stf": {
+  "archived": false,
+  "licence": "NOASSERTION",
+  "pushed": "2026-10-02",
+  "stars": 4586
+ },
+ "Droid-ify/client": {
+  "archived": false,
+  "licence": "GPL-3.0",
+  "pushed": "2026-09-12",
+  "stars": 7539
+ },
+ "Genymobile/scrcpy": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-03",
+  "stars": 151011
+ },
+ "JetBrains/compose-multiplatform": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-03",
+  "stars": 19401
+ },
+ "JuanCF/scrcpy-mcp": {
+  "archived": false,
+  "licence": "MIT",
+  "pushed": "2026-09-23",
+  "stars": 110
+ },
+ "KhronosGroup/Vulkan-Tools": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-04",
+  "stars": 497
+ },
+ "NeoApplications/Neo-Store": {
+  "archived": false,
+  "licence": "GPL-3.0",
+  "pushed": "2026-10-01",
+  "stars": 5336
+ },
+ "Tencent/ncnn": {
+  "archived": false,
+  "licence": "NOASSERTION",
+  "pushed": "2026-10-04",
+  "stars": 23907
+ },
+ "WearyConcern1165/xclipse-vulkan-decompiled": {
+  "archived": false,
+  "licence": "NOASSERTION",
+  "pushed": "2026-05-12",
+  "stars": 11
+ },
+ "android/architecture-components-samples": {
+  "archived": true,
+  "licence": "Apache-2.0",
+  "pushed": "2024-12-06",
+  "stars": 129
+ },
+ "android/architecture-samples": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-09-26",
+  "stars": 45851
+ },
+ "android/compose-samples": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-02",
+  "stars": 23496
+ },
+ "android/nowinandroid": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-04",
+  "stars": 21878
+ },
+ "android/testing-samples": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2025-07-18",
+  "stars": 9289
+ },
+ "anthropics/claude-code": {
+  "archived": false,
+  "licence": "NOASSERTION",
+  "pushed": "2026-10-03",
+  "stars": 149414
+ },
+ "anthropics/skills": {
+  "archived": false,
+  "licence": "NOASSERTION",
+  "pushed": "2026-10-03",
+  "stars": 179645
+ },
+ "appium/appium": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-04",
+  "stars": 22043
+ },
+ "appium/appium-uiautomator2-driver": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-01",
+  "stars": 884
+ },
+ "astral-sh/uv": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-04",
+  "stars": 90406
+ },
+ "bazelbuild/bazel": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-02",
+  "stars": 25919
+ },
+ "bufbuild/buf": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-04",
+  "stars": 11475
+ },
+ "bumptech/glide": {
+  "archived": false,
+  "licence": "NOASSERTION",
+  "pushed": "2026-10-02",
+  "stars": 35024
+ },
+ "coil-kt/coil": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-04",
+  "stars": 11913
+ },
+ "cucumber/cucumber-js": {
+  "archived": false,
+  "licence": "MIT",
+  "pushed": "2026-10-04",
+  "stars": 5395
+ },
+ "eslint/eslint": {
+  "archived": false,
+  "licence": "MIT",
+  "pushed": "2026-10-04",
+  "stars": 27563
+ },
+ "facebook/buck2": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-04",
+  "stars": 4455
+ },
+ "ggml-org/llama.cpp": {
+  "archived": false,
+  "licence": "MIT",
+  "pushed": "2026-10-04",
+  "stars": 130304
+ },
+ "google-ai-edge/LiteRT": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-04",
+  "stars": 3470
+ },
+ "google-ai-edge/mediapipe": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-04",
+  "stars": 37162
+ },
+ "google/android-cuttlefish": {
+  "archived": false,
+  "licence": "NOASSERTION",
+  "pushed": "2026-10-03",
+  "stars": 726
+ },
+ "google/android-emulator-container-scripts": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-04",
+  "stars": 2094
+ },
+ "google/gemmlowp": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2024-01-29",
+  "stars": 1845
+ },
+ "gradle/gradle-skills": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-09-30",
+  "stars": 14
+ },
+ "ktlint/ktlint": {
+  "archived": false,
+  "licence": "MIT",
+  "pushed": "2026-10-02",
+  "stars": 6751
+ },
+ "libimobiledevice/libusbmuxd": {
+  "archived": false,
+  "licence": "LGPL-2.1",
+  "pushed": "2025-09-07",
+  "stars": 691
+ },
+ "localsend/localsend": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-04",
+  "stars": 93353
+ },
+ "lysine-dev/okhttp": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-04",
+  "stars": 47083
+ },
+ "lysine-dev/retrofit": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-02",
+  "stars": 43938
+ },
+ "microsoft/mcp": {
+  "archived": false,
+  "licence": "MIT",
+  "pushed": "2026-10-03",
+  "stars": 3730
+ },
+ "microsoft/onnxruntime": {
+  "archived": false,
+  "licence": "MIT",
+  "pushed": "2026-10-04",
+  "stars": 22007
+ },
+ "mobile-dev-inc/Maestro": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-02",
+  "stars": 15932
+ },
+ "mobile-next/mobile-mcp": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-04",
+  "stars": 8648
+ },
+ "modelcontextprotocol/python-sdk": {
+  "archived": false,
+  "licence": "MIT",
+  "pushed": "2026-10-02",
+  "stars": 24479
+ },
+ "modelcontextprotocol/servers": {
+  "archived": false,
+  "licence": "NOASSERTION",
+  "pushed": "2026-10-04",
+  "stars": 91003
+ },
+ "modelcontextprotocol/typescript-sdk": {
+  "archived": false,
+  "licence": "NOASSERTION",
+  "pushed": "2026-10-02",
+  "stars": 13513
+ },
+ "openatx/adbutils": {
+  "archived": false,
+  "licence": "MIT",
+  "pushed": "2026-08-10",
+  "stars": 1082
+ },
+ "openatx/uiautomator2": {
+  "archived": false,
+  "licence": "MIT",
+  "pushed": "2026-09-11",
+  "stars": 8406
+ },
+ "prettier/prettier": {
+  "archived": false,
+  "licence": "MIT",
+  "pushed": "2026-10-04",
+  "stars": 52344
+ },
+ "pytorch/executorch": {
+  "archived": false,
+  "licence": "NOASSERTION",
+  "pushed": "2026-10-04",
+  "stars": 5078
+ },
+ "qualcomm/ai-hub-apps": {
+  "archived": false,
+  "licence": "BSD-3-Clause",
+  "pushed": "2026-10-01",
+  "stars": 461
+ },
+ "qualcomm/ai-hub-models": {
+  "archived": false,
+  "licence": "BSD-3-Clause",
+  "pushed": "2026-10-03",
+  "stars": 1226
+ },
+ "sqldelight/sqldelight": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-03",
+  "stars": 6887
+ },
+ "square/moshi": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-01",
+  "stars": 10165
+ },
+ "tensorflow/tensorflow": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-04",
+  "stars": 200702
+ },
+ "termux/proot-distro": {
+  "archived": false,
+  "licence": "GPL-3.0",
+  "pushed": "2026-09-23",
+  "stars": 3526
+ },
+ "termux/termux-api": {
+  "archived": false,
+  "licence": "NOASSERTION",
+  "pushed": "2026-09-17",
+  "stars": 4414
+ },
+ "termux/termux-app": {
+  "archived": false,
+  "licence": "NOASSERTION",
+  "pushed": "2026-09-26",
+  "stars": 61971
+ },
+ "termux/termux-tools": {
+  "archived": false,
+  "licence": "GPL-3.0",
+  "pushed": "2026-09-20",
+  "stars": 878
+ },
+ "typst/typst": {
+  "archived": false,
+  "licence": "Apache-2.0",
+  "pushed": "2026-10-02",
+  "stars": 56407
+ },
+ "wireapp/wire-android": {
+  "archived": false,
+  "licence": "GPL-3.0",
+  "pushed": "2026-10-04",
+  "stars": 253
+ }
+}

@@ -160,3 +160,56 @@ reason in `.agents/skills/README.md` so nobody re-hunts them (E20).
 counted commas across *all* table columns, so a row with one real skill plus a
 comma in its explanation column counted as two. It now parses the table by
 header name and counts only the `Skills` column.
+
+### CS-006 — reference projects (2026-10-04) — document done, task still open
+
+**What:** `tools/build-reference-repos.py` turns spec §22 into
+`docs/reference-repos.md`, merging metadata read live from the GitHub API. A
+take-over ledger records which take-overs are actually implemented.
+
+**Test:**
+
+```
+python3 tools/build-reference-repos.py --live
+OK: wrote docs/reference-repos.md — 65 rows, 7 categories
+python3 tools/build-reference-repos.py --check
+OK: docs/reference-repos.md matches the spec (65 rows, 7 categories)
+```
+
+**Link check:** all 61 distinct repositories were queried through
+`gh api repos/<name>`; **61 answered, 0 failed**, so every link still resolves.
+Stars and last-push dates come from that response, not from the spec text.
+
+**Negative test of `--check`:** changing one star count in the document makes it
+fail with `out of date` and exit 1.
+
+**Why CS-006 is not marked done:** its test also demands "at least one scrcpy
+take-over that CS-010 actually uses". CS-010 has not been built, so that clause
+cannot be honestly claimed. The ledger therefore reads `0 of 6 take-overs are
+implemented`, and the task stays `pending` until CS-010 exists.
+
+## Open blocker: no phone is connected (blocks most of wave 1 and later)
+
+Measured on 2026-10-04, 21:40, with the shared adb daemon restarted first
+(it was down; `adb.5037` pointed at Debian's own adb binary).
+
+| Probe | Result |
+|---|---|
+| adb server on `tcp:127.0.0.1:5037` | was **down**, restarted as `adb nodaemon server`; Termux has no own adb binary, so this is the one and only server (§5.1.1) |
+| `adb connect 127.0.0.1:45907` | transport created, then **`offline`** |
+| `adb devices` after `adb reconnect` | list empty again |
+| wireless-debugging **pairing** port (was 44508) | **closed** — no pairing code can be obtained |
+| `adb mdns services` | empty (already known: no mDNS on this network) |
+
+So the phone's own wireless-debugging daemon answers on 45907, but this adb key
+is not authorized for the current session, and the pairing dialog that would
+issue a fresh 6-digit code is not open. Nothing in the build can fix that from
+outside — it needs the one-time pairing (spec §12.1), which the user performs
+once in the phone's Settings.
+
+**Consequence, stated plainly:** every task whose test says *on the real phone*
+cannot pass in this state and must stay open or become a blocker. Everything
+that can be proved without the device — the MCP server, the tool layer against a
+scripted fake adb, safety, session, memory, the companion app build in CI, the
+documentation, the linters — can be built and tested, and that is the order the
+next run should use.

@@ -1,0 +1,10 @@
+node_modules/
+dist/
+build/
+.gradle/
+*.log
+.env
+.env.*
+*.apk
+__pycache__/
+.venv/
